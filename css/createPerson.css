@@ -1,0 +1,64 @@
+header {
+	background: #04356C;
+	position: relative;
+	height: 22pt;
+}
+header > a {
+	font-weight: bold;
+	font-size: 18pt;
+	margin: auto 2%;
+	color: #A66400;
+	font-family: Verdana, fantasy;
+	text-decoration: none;
+}
+main {
+	background: #FFC873;
+	height: 100%;
+	width: 60%;
+	margin: auto;
+	box-shadow: 0 0 10px #BDB76B;
+}
+form {
+	position: relative;
+}
+form:focus {
+	outline: 0;
+}
+h2 {
+    margin-top: 0;
+}
+i {
+    color: DimGray;
+}
+p {
+    margin-left: 5px;
+    margin-top: 20px;
+}
+textarea:focus {
+	outline: 0;
+}
+textarea {
+	margin-left: 5px;
+	width: 60%;
+	min-height: 12pt;
+	background: #FFFFE0;
+	height: fit-content;
+	padding: 10px;
+	border-radius: 10px 10px;
+	border: 0;
+	resize: none;
+}
+input.submit {
+	height: 30px;
+	width: 80px;
+	margin-left: 50%;
+	margin-top: 10px;
+	background: #7FFF00;
+	cursor: pointer;
+	border: 0;
+} 
+body {
+	background: #FFFFE0 ;
+	border: 0;
+	margin: 0;
+}

@@ -1,0 +1,31 @@
+button {
+    border: 0;
+    display: inline-block;
+    background: #edb35a;
+    color: DarkBlue;
+    margin-left: 4px;
+    margin-top: 4px;
+}
+div.group {
+    background: #FFFFE0;
+    text-align: center;
+    font-weight: 600;
+    color: CornflowerBlue;
+    min-height: 12px;
+    min-width: 30px;
+    width: fit-content;
+    display: inline-block;
+    margin-top: 4px;
+    margin-left: 4px;
+    border-radius: 2px;
+    margin-right: 2px;
+}
+input {
+    display: block;
+}
+button:active {
+    background: #c98f35
+}
+em {
+    display: inline-block;
+}

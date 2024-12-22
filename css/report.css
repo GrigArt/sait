@@ -1,0 +1,13 @@
+a.report {
+    position: absolute;
+    bottom: 0;
+    right: 2%;
+    font-family: Verdana, fantasy;
+	text-decoration: none;
+	color: #A66400;
+	font-size: 12pt;
+}
+p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}

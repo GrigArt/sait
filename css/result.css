@@ -1,0 +1,96 @@
+header {
+	background: #04356C;
+	position: relative;
+}
+td {
+    max-width: 250px;
+    max-height: 250px;
+}
+img {
+    max-width: 200px;
+    max-height: 200px;
+}
+main {
+	float: left;
+	background: #FFC873;
+	height: 100%;
+	width: 60%;
+	margin-left: 10px;
+	margin-right: auto;
+	box-shadow: 0 0 10px #BDB76B;
+	word-break: break-all;
+}
+a {
+	font-family: Verdana, fantasy;
+	text-decoration: none;
+	color: #A66400;
+}
+div > a {
+    display: block;
+    font-size: 10pt;
+}
+header > a {
+	font-weight: bold;
+	font-size: 18pt;
+	margin: auto 2%;
+}
+nav {
+	float: left;
+	background: #F0CaA0;
+	box-shadow: 5px 5px 100px #F0CaA0;
+	padding-right: 5px;
+}
+hr {
+	margin: 0 5px 0 0;
+	border: none;
+	border-top: 1px solid black;
+}
+h3, h4 {
+	margin: 10px 3px 0 0;
+}
+dt, dd > a {
+	font-size: 10pt;
+	font-weight: normal;
+}
+a.main {
+	font-size: 24pt;
+	margin-right: 20px;
+	margin-top: auto;
+}
+div.comment {
+    margin: 2%;
+    padding: 1pt;
+    border: 1px solid black;
+    background: #ffcf85;
+    border-radius: 4px;
+}
+form {
+	position: absolute;
+	right: 5%;
+	top: 30%;
+}
+input {
+	border-color: orange;
+	background: LemonChiffon;
+}
+textarea {
+	margin-left: 5px;
+	width: 60%;
+	min-height: 12pt;
+	background: #FFFFE0;
+	height: fit-content;
+	padding: 10px;
+	border-radius: 10px 10px;
+	border: 0;
+	resize: none;
+}
+dialog {
+    top: 30%;
+    width: 50%;
+    height: 30%;
+}
+body {
+	background: #FFFFE0 ;
+	border: 0;
+	margin: 0;
+}
