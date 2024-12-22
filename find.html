@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title> </title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="css/result.css">
+		<link rel="stylesheet" href="css/find.css">
+		<link rel="stylesheet" href="css/report.css">
+	</head>
+	<body>
+		<header> 
+			<a href="index.html", class="main"> Главная</a>
+			<form action="find.html", method="get">
+				<input id="search", placeholder="поиск", type="search"></input>
+			</form>
+		</header>
+		<div hidden id='result'></div>
+		<main>
+		</main>
+		<script src="js/jquery-3.7.1.js"></script>
+		<script>
+		    function getResult(data) {
+		        const resultData = JSON.parse(data);
+		        let result = [];
+		        for (let i = 0; i < resultData.length; i++) {
+		            result.push({
+		                a_href: "result.html?fullName="+resultData[i].fullName,
+                    	a_text: resultData[i].fullName,
+            	        meta: resultData[i].generalInfo
+		            })
+		        }
+		        return result;
+		    }
+    		function createBlocks(results) {
+            	const mainBlock = document.getElementsByTagName("main")[0];
+            	for (let i = 0; i < results.length; i++) {
+            		const block = document.createElement('div');
+            		block.className = 'block';
+            		const a = document.createElement('a');
+            		a.setAttribute('href', results[i].a_href);
+            		a.textContent = results[i].a_text;
+            		const hr = document.createElement('hr');
+            		const div = document.createElement('div');
+            		div.className = 'meta';
+            		div.textContent = results[i].meta;
+            		block.appendChild(a);
+            		block.appendChild(hr);
+            		block.appendChild(div);
+            		mainBlock.appendChild(block);
+            	}
+            	const iTag = document.createElement('i');
+            	mainBlock.appendChild(iTag);
+            	iTag.textContent = 'Не нашли нужную страницу? Тогда '
+            	const a = document.createElement('a');
+            	a.setAttribute('href','createPerson.html?value='+value);
+                a.textContent = 'создайте её';
+                iTag.appendChild(a);
+                iTag.innerHTML = iTag.innerHTML + '!';
+            	
+            }
+            let params = new URLSearchParams(document.location.search);
+            let value = params.get("search");
+            $.get("php/findPerson.php",{search: value}, function(data) {createBlocks(getResult(data))});
+        </script>
+        <a class="report", href="createReport.html"> Сообщить</a>
+	</body>
+</html>

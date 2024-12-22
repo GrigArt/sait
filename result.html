@@ -1,0 +1,334 @@
+<html>
+	<head>
+		<title> </title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="css/result.css">
+		<link rel="stylesheet" href="css/report.css">
+		<link rel="stylesheet" href="css/button.css">
+	</head>
+	<body>
+		<header> 
+			<a href="index.html", class="main"> Главная</a>
+			<form action="find.html", method="get">
+				<input placeholder="поиск", type="search", name="search"></input>
+			</form>
+		</header>
+		<nav>
+			<dl> 
+				<dt><a href="#0"> Основное </a></dt>
+					<dd><a href="#1"> Сведения </a></dd>
+					<dd><a href="#2"> Группы </a></dd>
+				<dt><a href="#3"> Дополнительно </a></dt>
+					<dd><a href="#4"> Медиа </a></dd>
+					<dd><a href="#5"> Полезные ссылки </a></dd>
+				<dt><a href="#6"> Отзывы </a></dt>
+			</dl>
+		</nav>
+		<main>
+		</main>
+		<script src="js/jquery-3.7.1.js"></script>
+		<script src="js/cookieWork.js"></script>
+		<script>
+    	    function getResult(data) {
+    	        if (data.indexOf("<br />") != -1) {
+    	            return {};
+    	        }
+    	        const preResult = JSON.parse(data);
+    	        let result = {};
+    	        let groups = [];
+    	        let links = [];
+    	        let linkNames = [];
+    	        let media = [];
+    	        let comments = [];
+    	        for (let i = 0; i < preResult.length; i++) {
+    	            if (preResult[i].fullName != null) {
+    	                result = preResult[i];
+    	            } else if (preResult[i].groupName != null) {
+    	                groups.push(preResult[i].groupName);
+    	            } else if (preResult[i].link != null) {
+    	                links.push(preResult[i].link);
+    	                linkNames.push(preResult[i].linkName);
+    	            } else if (preResult[i].media != null) {
+    	                media.push(preResult[i].media);
+    	            } else {
+    	                comments.push(preResult[i].review);
+    	            }
+    	        };
+    	        result.groups = groups;
+    	        result.links = links;
+    	        result.linkNames = linkNames;
+    	        result.media = media;
+    	        result.comments = comments;
+    	        return result;
+    		}
+    		function noscroll() {
+    		    this.style.height = 'fit-content';
+	            this.style.height = this.scrollHeight + 'px';
+    		}
+    		async function accept(elem) {
+    		    const inputKey = document.getElementsByName('keyInput')[0];
+    		    elem.disabled = true;
+    		    if (elem.target.id == 'G') {
+    		        const input = document.getElementsByName('groupInput')[0];
+    		        const text = input.value;
+		            
+		            //https://ipinfo.io/json
+                    let isTrueKey = await $.post("php/addGroup.php",{
+                        key: inputKey.value, fullName: value, group: text, ip: ip
+		            });
+	                if (isTrueKey) {
+		                inputKey.style.border = '2px solid red';
+		                const pAlert = document.getElementsByName("Alert")[0];
+		                pAlert.textContent = isTrueKey;
+		                pAlert.style.color = "red";
+		                elem.disabled = false;
+		                return -1;
+		            };
+		            
+    		        const group = document.createElement('div');
+            		group.setAttribute('class', 'group');
+            		group.textContent = text;
+        		    document.getElementById(2).insertBefore(group, document.getElementById("2").getElementsByTagName("button")[0]);
+        		    document.getElementsByTagName('dialog')[0].remove();
+    		    } else if (elem.target.id == 'M') {
+    		        const input = document.getElementsByName('mediaInput')[0];
+    		        const text = input.value;
+		            //https://ipinfo.io/json
+                    let isTrueKey = await $.post("php/addMedia.php",{
+                        key: inputKey.value, fullName: value, media: text, ip: ip
+		            });
+	                if (isTrueKey) {
+		                inputKey.style.border = '2px solid red';
+		                const pAlert = document.getElementsByName("Alert")[0];
+		                pAlert.textContent = isTrueKey;
+		                pAlert.style.color = "red";
+		                elem.disabled = false;
+		                return -1;
+		            };
+		            
+        		    document.getElementsByTagName('dialog')[0].remove(); 
+        		    location.reload();
+        		} else if (elem.target.id == 'R') {
+    		        const input = document.getElementsByName('reviewInput')[0];
+    		        const text = input.value;
+		            //https://ipinfo.io/json
+                    let isTrueKey = await $.post("php/addComment.php",{
+                        key: inputKey.value, fullName: value, review: text, ip: ip
+		            });
+	                if (isTrueKey) {
+		                inputKey.style.border = '2px solid red';
+		                const pAlert = document.getElementsByName("Alert")[0];
+		                pAlert.textContent = isTrueKey;
+		                pAlert.style.color = "red";
+		                elem.disabled = false;
+		                return -1;
+		            };
+		            
+        		    document.getElementsByTagName('dialog')[0].remove(); 
+        		    location.reload();
+        		} else if (elem.target.id == 'L') {
+    		        const inputLink = document.getElementsByName('linkInput')[0];
+    		        const inputLinkName = document.getElementsByName('linkNameInput')[0];
+    		        const link = inputLink.value;
+    		        const linkName = inputLinkName.value;
+                    let isTrueKey = await $.post("php/addLink.php",{
+                        key: inputKey.value, fullName: value, link: link, linkName: linkName, ip: ip
+		            });
+	                if (isTrueKey) {
+		                inputKey.style.border = '2px solid red';
+		                const pAlert = document.getElementsByName("Alert")[0];
+		                pAlert.textContent = isTrueKey;
+		                pAlert.style.color = "red";
+		                elem.disabled = false;
+		                return -1;
+		            };
+		            
+    		        const a = document.createElement('a');
+            		a.setAttribute('href', link);
+            		a.textContent = linkName;
+        		    document.getElementById(5).insertBefore(a, document.getElementById("5").getElementsByTagName("button")[0]);
+        		    document.getElementsByTagName('dialog')[0].remove();
+    		    } else if (elem.target.id == 'Cancel') {
+    		        document.getElementsByTagName('dialog')[0].remove();
+    		    }
+    		    
+    		}
+    		function buttonClicked(elem) {
+    		    const dialog = document.createElement('dialog');
+    		    
+    		    const pKey = document.createElement('p');
+    		    pKey.setAttribute("name", "keyP");
+    		    pKey.textContent = "Введите ключ (если есть):";
+    		    dialog.appendChild(pKey);
+    		    
+    		    const inputKey = document.createElement('input');
+    		    inputKey.setAttribute('maxlength','32');
+    		    inputKey.setAttribute('name', 'keyInput');
+    		    const buttonAdd = document.createElement('button');
+    		    const buttonCancel = document.createElement('button');
+    		    buttonCancel.setAttribute('id','Cancel');
+    		    buttonCancel.textContent = 'Отмена';
+    		    buttonCancel.addEventListener("click", (elem) => accept(elem));
+    		    
+    		    const pAletrt = document.createElement('p');
+    		    pAletrt.setAttribute("name", "Alert");
+    		    pAletrt.textContent = "";
+    		    
+    		    
+    		    dialog.appendChild(inputKey);
+    		    
+    		    if (elem.target.id == 12) {
+    		        const input = document.createElement('input');
+    		        input.setAttribute('maxlength','10');
+    		        input.setAttribute('name', 'groupInput');
+    		        input.setAttribute('placeholder', 'БСТ');
+    		        const inputP = document.createElement('p');
+        		    inputP.setAttribute("name", "inputP");
+        		    inputP.textContent = "Введите Группу:"
+        		    dialog.appendChild(inputP);
+    		        dialog.appendChild(input);
+    		        buttonAdd.setAttribute('id','G');
+    		        buttonAdd.textContent = 'Добавить группу';
+    		        buttonAdd.addEventListener("click", (elem) => accept(elem));
+    		    } else if (elem.target.id == 14) {
+    		        const input = document.createElement('input');
+    		        input.setAttribute('maxlength','255');
+    		        input.setAttribute('name', 'mediaInput');
+    		        input.setAttribute('placeholder', 'https://...');
+    		        const inputP = document.createElement('p');
+        		    inputP.setAttribute("name", "inputP");
+        		    inputP.textContent = "Введите Ссылку на картинку:"
+        		    dialog.appendChild(inputP);
+    		        dialog.appendChild(input);
+    		        buttonAdd.setAttribute('id','M');
+    		        buttonAdd.textContent = 'Добавить картинку';
+    		        buttonAdd.addEventListener("click", (elem) => accept(elem));
+    		    } else if (elem.target.id == 15) {
+    		        const input1 = document.createElement('input');
+    		        input1.setAttribute('maxlength','255');
+    		        input1.setAttribute('name', 'linkInput');
+    		        input1.setAttribute('placeholder', 'https://...');
+    		        const input1P = document.createElement('p');
+        		    input1P.setAttribute("name", "input1P");
+        		    input1P.textContent = "Введите Ссылку:"
+        		    dialog.appendChild(input1P);
+    		        dialog.appendChild(input1);
+    		        const input2 = document.createElement('input');
+    		        input2.setAttribute('maxlength','100');
+    		        input2.setAttribute('name', 'linkNameInput');
+    		        input2.setAttribute('placeholder', 'Ссылка на мем');
+    		        const input2P = document.createElement('p');
+        		    input2P.setAttribute("name", "input1P");
+        		    input2P.textContent = "Введите Имя ссылки:"
+        		    dialog.appendChild(input2P);
+    		        dialog.appendChild(input2);
+    		        buttonAdd.setAttribute('id','L');
+    		        buttonAdd.textContent = 'Добавить ссылку';
+    		        buttonAdd.addEventListener("click", (elem) => accept(elem));
+    		        
+    		    } else if (elem.target.id == 16) {
+    		        const input = document.createElement('textarea');
+    		        input.addEventListener("input", noscroll);
+    		        input.setAttribute('maxlength','255');
+    		        input.setAttribute('name', 'reviewInput');
+    		        input.setAttribute('placeholder', 'Ваш отзыв');
+    		        const inputP = document.createElement('p');
+        		    inputP.setAttribute("name", "inputP");
+        		    inputP.textContent = "Напишите отзыв:"
+        		    dialog.appendChild(inputP);
+    		        dialog.appendChild(input);
+    		        buttonAdd.setAttribute('id','R');
+    		        buttonAdd.textContent = 'Оставить Отзыва';
+    		        buttonAdd.addEventListener("click", (elem) => accept(elem));
+    		    }
+    		    dialog.appendChild(pAletrt);
+    		    dialog.appendChild(buttonAdd);
+    		    dialog.appendChild(buttonCancel);
+    		    document.body.appendChild(dialog);
+    		    dialog.show();
+    		}
+    		function fillBlocks(result) {
+		        let main = document.getElementsByTagName('main')[0];
+		        const em = document.createElement('em');
+		        const fullName = document.createElement('h2');
+		        //const button = document.createElement('button');
+		        fullName.textContent = result.fullName == null ? 'Этой страницы не существует' : result.fullName;
+		        main.appendChild(em);
+		        em.appendChild(fullName);
+		        //button.addEventListener("click", (elem) => buttonClicked(elem));
+		        //button.textContent = "правка";
+		        //main.appendChild(button);
+		        for (let i = 0; i < 7; i++) {
+		            const div = document.createElement('div');
+		            const h = document.createElement(i % 3 == 0 ? 'h3' : 'h4');
+		            const hr = document.createElement('hr');
+		            main.appendChild(div);
+		            div.setAttribute('id',i);
+		            div.appendChild(h);
+		            div.appendChild(hr);
+		            h.textContent = names[i];
+		            if (i < 2) {
+		                const p = document.createElement('p');
+		                div.appendChild(p);
+		                p.textContent = result[keysResult[i]];
+		            } else if (i == 2 && result.groups != null) { 
+        				for (let v = 0; v < result.groups.length; v++) {
+        					const group = document.createElement('div');
+        					group.setAttribute('class', 'group');
+        					group.textContent = result.groups[v];
+        					div.appendChild(group);
+        				}
+		            } else if (i == 3 && result.additionally != null) { 
+                        
+		            } else if (i == 4 && result.media != null) {
+        				const table = document.createElement('table');
+        				let tr, td, img;
+        				div.appendChild(table);
+        				for (let v = 0; v < result.media.length; v++) {
+        					if (v % 5 == 0) {
+        						if (v != 0)
+        							table.appendChild(tr);
+        						tr = document.createElement('tr');
+        					}
+        					td = document.createElement('td');
+        					tr.appendChild(td);
+        					img = document.createElement('img');
+        					img.src = result.media[v];
+        					td.appendChild(img);
+        				}
+        			if (result.media.length % 5 != 0)
+                        table.appendChild(tr);
+                    } else if (i == 5 && result.links != null) {
+                        for (let v = 0; v < result.links.length; v++) {
+                            const a = document.createElement('a');
+                            a.href = result.links[v];
+                            a.textContent = result.linkNames[v];
+                            div.appendChild(a);
+                        }
+                    } else if (i == 6 && result.comments != null) {
+                        for (let v = 0; v < result.comments.length; v++) {
+                            const divC = document.createElement('div');
+                            divC.setAttribute("class", "comment");
+                            divC.textContent = result.comments[v];
+                            div.appendChild(divC);
+                        }
+                    }
+                    if (i > 1 & i != 3) {
+                        const button = document.createElement('button');
+                        div.appendChild(button)
+                        button.addEventListener("click", (elem) => buttonClicked(elem));
+                        button.setAttribute('id',i+10)
+                        button.textContent = "добавить";
+                    }
+                }
+    		}
+    		getIp();
+    		let params = new URLSearchParams(document.location.search);
+    		let value = params.get("fullName");
+    		const keysResult = ["generalInfo","info"];
+    		const names = ["Основное","Сведения","Группы","Дополнительно","Медиа","Полезные ссылки", "Отзывы"];
+    		$.get("php/getPerson.php",{fullName: value}, (data) => fillBlocks(getResult(data)));
+		</script>
+		<a class="report", href="createReport.html"> Сообщить</a>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<title> </title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="css/createPerson.css">
+		<link rel="stylesheet" href="css/report.css">
+	</head>
+	<body>
+		<header> 
+			<a href="index.html", class="main"> Главная</a>
+		</header>
+		<main>
+		    <h2>Создание страницы</h2>
+		    <p>Полное имя:</p>
+			<textarea placeholder="Иванов И.И. а лучше Иванов Иван Иванович", name="fullName", required, maxlength='60', wrap='hard'></textarea>
+			<p>Основное:</p>
+			<textarea placeholder="То, ради чего на эту страницу зайдут другие", name="generalInfo", maxlength='1000',></textarea>
+			<p>Сведения:</p>
+			<textarea placeholder="Возраст, кафедра, деятельность", name="info", maxlength='1000'></textarea>
+			<p>Ключ (если есть):</p>
+			<textarea name="key", maxlength='32'></textarea>
+			<input class="submit", type="submit", value="Создать", name="button"></input>
+			<p name="Alert"></p>
+		</main>
+		<script src="js/jquery-3.7.1.js"></script>
+		<script src="js/cookieWork.js"></script>
+		<script>
+		    function isAdded(data) {
+		        if (data) {
+		            const pAlert = document.getElementsByName("Alert")[0];
+	                pAlert.textContent = data;
+	                pAlert.style.color = "red";
+		        } else {
+		            window.location.href = "result.html?fullName="+document.getElementsByName("fullName")[0].value;
+		        }
+		    }
+		    function submitForm (elem) {
+    		    $.post("php/createPerson.php", 
+    		    {fullName: document.getElementsByName("fullName")[0].value, 
+    		    generalInfo: document.getElementsByName("generalInfo")[0].value, 
+    		    info: document.getElementsByName("info")[0].value,
+    		    key: document.getElementsByName("key")[0].value,
+    		    ip: ip
+    		    }, (data) => isAdded(data));
+    		    
+    		}
+    		function noscroll() {
+    		    this.style.height = 'fit-content';
+	            this.style.height = this.scrollHeight + 'px';
+    		}
+    		getIp();
+    		let params = new URLSearchParams(document.location.search);
+    		let value = params.get("value");
+    		const button = document.getElementsByTagName('input')[0];
+    		button.addEventListener('click', (e) => submitForm(e));
+    		const textAreas = document.getElementsByTagName('textarea');
+    		textAreas[1].addEventListener('input', noscroll);
+    		textAreas[2].addEventListener('input', noscroll);
+    		const names = ["Основное","Сведения","Предметы и группы","Теги","Медиа","Полезные ссылки"];
+    		//$.get("php/getPerson.php",{id: value}, function(data) {fillBlocks(getResult(data))});onsubmit="submitForm(this)", action="index.html", method='POST'
+		</script>
+		<a class="report", href="createReport.html"> Сообщить</a>
+	</body>
+</html>

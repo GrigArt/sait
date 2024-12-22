@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title> Для ваших там сообщений </title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="css/createPerson.css">
+	</head>
+	<body>
+		<header> 
+			<a href="index.html", class="main"> Главная</a>
+		</header>
+		<main>
+		    <h2>Обращение</h2>
+		    <form method='POST'>
+		        <p>Для обратной связи:</p>
+				<textarea placeholder="Почта, имя, телега...", name="sender", maxlength='100', wrap='hard'></textarea>
+				<p>Содержание обращения:</p>
+				<textarea placeholder="Чего вам там надо?", name="data",required, maxlength='1000',></textarea>
+				<input class="submit", type="submit", value="Создать", name="button"></input>
+			</form>
+			<i>Вы можете не оставлять информацию для обратной связи. Всё равно мы вычислим вас по ip...</i>
+		</main>
+		<script src="js/jquery-3.7.1.js"></script>
+		<script src="js/cookieWork.js"></script>
+		<script>
+		    function submitForm (formElement) {
+		        console.log(ip);
+		        const formData = new FormData(form);
+    		    $.post("php/createReport.php", 
+    		    {sender: formData.get("sender"), 
+    		    data: formData.get("data"),
+    		    ip: ip});
+    		    alert("Разработчик не хочет делать вам проверку. Молитесь, что отправка прошла успешно");
+    		    form.action = "index.html";
+    		}
+    		function noscroll() {
+    		    this.style.height = 'fit-content';
+	            this.style.height = this.scrollHeight + 'px';
+    		}
+    		getIp();
+    		const form = document.getElementsByTagName('form')[0];
+    		form.addEventListener('submit', (e) => submitForm(e));
+    		const textArea = document.getElementsByTagName('textarea')[1];
+    		textArea.addEventListener('input', noscroll);
+    		//$.get("php/getPerson.php",{id: value}, function(data) {fillBlocks(getResult(data))});onsubmit="submitForm(this)", action="index.html", method='POST'
+		</script>
+	</body>
+</html>
