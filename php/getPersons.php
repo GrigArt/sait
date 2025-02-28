@@ -7,6 +7,6 @@ if ($link == false){
     $sql = "SELECT * FROM Persons";
     $result = mysqli_query($link, $sql);
     $resArray = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    //print(json_encode($resArray, JSON_UNESCAPED_UNICODE));   
+    print(json_encode($resArray, JSON_UNESCAPED_UNICODE));   
 }
 ?>
